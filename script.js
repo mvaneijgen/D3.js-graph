@@ -248,8 +248,8 @@ const App = {
     //------------------------------------------------------//
     const spreadsheetID = "1xUEByyIty6q7dIv_hysJ4534u696e2HVWnTD4-YGxLk";
     const tab = "main";
-    // const api = process.env.APIKEY;
-    const api = "test"
+    const api = process.env.APIKEY;
+    // const api = "test"
     await fetch(
       `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetID}/values/${tab}?alt=json&key=${api}`).
 
