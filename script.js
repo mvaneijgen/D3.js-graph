@@ -250,7 +250,7 @@ const App = {
     this.apiKey = localStorage.getItem("apiKey");
 
     if (!this.apiKey) {
-      this.apiKey = prompt("Enter API ddddKey:");
+      this.apiKey = prompt("Enter API Key:");
       this.apiKey = localStorage.setItem("apiKey", this.apiKey);
     }
     // END Setup apiKey for development --------------//
