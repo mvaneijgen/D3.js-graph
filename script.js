@@ -248,10 +248,10 @@ const App = {
     //------------------------------------------------------//
     const spreadsheetID = "1xUEByyIty6q7dIv_hysJ4534u696e2HVWnTD4-YGxLk";
     const tab = "main";
-    const api = process.env.APIKEY;
-    // const api = "test"
     await fetch(
-      `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetID}/values/${tab}?alt=json&key=${api}`).
+      `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetID}/values/${tab}?alt=json&key=${localStorage.getItem(
+        "apiKey" // Stored in localStorage
+      )}`).
 
       then(response => response.json()).
       then(response => {
@@ -274,21 +274,21 @@ const App = {
         console.log(error);
       });
   },
-  // created() {
-  //   //--------------------------------//
-  //   // Setup apiKey for development
-  //   //--------------------------------//
-  //   let apiKey = localStorage.getItem("apiKey");
+  created() {
+    //--------------------------------//
+    // Setup apiKey for development
+    //--------------------------------//
+    let apiKey = localStorage.getItem("apiKey");
 
-  //   if (!apiKey) {
-  //     apiKey = prompt("Enter API Key:");
-  //     let apiKey = localStorage.setItem("apiKey", apiKey);
-  //   }
-  //   // END Setup apiKey for development --------------//
+    if (!apiKey) {
+      apiKey = prompt("Enter API Key:");
+      let apiKey = localStorage.setItem("apiKey", apiKey);
+    }
+    // END Setup apiKey for development --------------//
 
-  //   const queryString = window.location.hash;
-  //   this.parameter = decodeURI(queryString).replace("#", "");
-  // }
+    const queryString = window.location.hash;
+    this.parameter = decodeURI(queryString).replace("#", "");
+  }
 };
 
 
