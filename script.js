@@ -7,6 +7,7 @@ const App = {
   // data: {
   data() {
     return {
+      apiKey: '',
       values: [],
       colors: [
         "#064743",
@@ -242,6 +243,20 @@ const App = {
   //   // this.addAxisX();
   //   // this.addAxisY();
   // },
+  created() {
+    //--------------------------------//
+    // Setup apiKey for development
+    //--------------------------------//
+    this.apiKey = localStorage.getItem("apiKey");
+
+    if (!this.apiKey) {
+      this.apiKey = prompt("Enter API ddddKey:");
+      this.apiKey = localStorage.setItem("apiKey", this.apiKey);
+    }
+    // END Setup apiKey for development --------------//
+    console.warn(this.apiKey);
+
+  },
   async mounted() {
     //------------------------------------------------------//
     // Google spreadsheet API logic
@@ -249,9 +264,7 @@ const App = {
     const spreadsheetID = "1xUEByyIty6q7dIv_hysJ4534u696e2HVWnTD4-YGxLk";
     const tab = "main";
     await fetch(
-      `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetID}/values/${tab}?alt=json&key=${localStorage.getItem(
-        "apiKey" // Stored in localStorage
-      )}`).
+      `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetID}/values/${tab}?alt=json&key=${this.apiKey}`).
 
       then(response => response.json()).
       then(response => {
@@ -274,21 +287,7 @@ const App = {
         console.log(error);
       });
   },
-  created() {
-    //--------------------------------//
-    // Setup apiKey for development
-    //--------------------------------//
-    let apiKey = localStorage.getItem("apiKey");
 
-    if (!apiKey) {
-      apiKey = prompt("Enter API Key:");
-      let apiKey = localStorage.setItem("apiKey", apiKey);
-    }
-    // END Setup apiKey for development --------------//
-
-    const queryString = window.location.hash;
-    this.parameter = decodeURI(queryString).replace("#", "");
-  }
 };
 
 
