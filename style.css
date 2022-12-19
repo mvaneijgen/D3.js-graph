@@ -1,0 +1,38 @@
+body {
+  background-color: #000;
+}
+
+.contianer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.graph * {
+  stroke: #fff;
+}
+
+circle:hover {
+  stroke: #fff;
+  stroke-width: 2px;
+}
+
+.tooltip {
+  pointer-events: none;
+  background-color: #fff;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 15px;
+  border-radius: 5px;
+}
+.tooltip > * {
+  margin: 0;
+}
+
+.tick text {
+  font-size: 18px;
+  stroke: transparent;
+  fill: #fff;
+}

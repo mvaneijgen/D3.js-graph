@@ -1,0 +1,50 @@
+$brand-one: #85dbda;
+$brand-two: #f53;
+$brand-light: #fff;
+$brand-dark: #000;
+$brand-grey: #637192;
+$base-margin: 15px;
+body {
+  background-color: $brand-dark;
+}
+svg {
+  // background-color: #ccc;
+  //   width: 100%;
+  // height:100%;
+}
+
+.contianer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.graph {
+  * {
+    stroke: $brand-light;
+  }
+
+}
+  circle {
+    &:hover {
+      stroke: $brand-light;
+      stroke-width: 2px;
+    }
+  }
+.tooltip {
+  pointer-events: none;
+  background-color: $brand-light;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 15px;
+  border-radius: 5px;
+  > * {
+    margin: 0;
+  }
+}
+.tick text {
+  font-size: 18px;
+  stroke: transparent;
+fill: $brand-light
+}

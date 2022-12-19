@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Vue.js &amp; D3.js stepped graph with google sheets api</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<link rel="stylesheet" href="./style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+circleColorcircleColor<div id="app">
+
+    <div class="contianer">
+      <svg id="graph" 
+           :width="size.width" 
+           :height="size.height">
+        <g :transform="`translate(${size.margin},${size.margin})`">
+          <g ref="axisX" class="graph"
+             :transform="`translate(0, ${size.height - (size.margin * 2)})`"
+             orient="left"></g>
+          <g ref="axisY" class="graph"
+             orient="bottom"
+             ></g>
+        </g>
+        
+        <g :transform="`translate(${size.margin}, ${size.margin})`">
+          <path v-for="(item, index) in values" :key="index" fill="none" 
+                :stroke="circleColor[index]" 
+                stroke-width="5" 
+                :d="perLineGenerator[index]"
+                />
+
+          <circle v-for="(item, index) in values" :key="index"
+                  :cx="circleDraw[index].x"
+                  :cy="circleDraw[index].y"
+                  r="10"
+                  :r="circleSize[index]"
+                  :fill="circleColor[index]"
+                  @mouseenter="updateTooltip(index, $event)"
+                  @mouseleave="hideTooltip"
+                  />
+        </g>
+    </svg>
+      <div class="tooltip" ref="tooltip" v-show="showTooltip">
+        <h4>{{current.time}}</h4>
+        <h5>{{current.name}}</h5>
+        <strong>{{current.date}}</strong>
+      </div>
+    </div>
+
+</div>
+<!-- partial -->
+  <script src='https://unpkg.com/vue@next'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/d3/7.6.1/d3.min.js'></script>
+<script src='https://unpkg.co/gsap@3/dist/gsap.min.js'></script><script  src="./script.js"></script>
+
+</body>
+</html>
