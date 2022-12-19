@@ -9,37 +9,41 @@ const App = {
     return {
       values: [],
       colors: [
-      "#064743",
-      "#17d2ca",
-      "#88d91a",
-      "#840cd4",
-      "#fcac0e",
-      "#fcff11",
-      "#e7151a",
-      "#009b0e",
-      "#064743",
-      "#17d2ca",
-      "#88d91a",
-      "#840cd4",
-      "#fcac0e",
-      "#fcff11",
-      "#e7151a",
-      "#009b0e"],
+        "#064743",
+        "#17d2ca",
+        "#88d91a",
+        "#840cd4",
+        "#fcac0e",
+        "#fcff11",
+        "#e7151a",
+        "#009b0e",
+        "#064743",
+        "#17d2ca",
+        "#88d91a",
+        "#840cd4",
+        "#fcac0e",
+        "#fcff11",
+        "#e7151a",
+        "#009b0e"],
 
       showTooltip: false,
       current: {
         player: "",
         time: "",
-        date: "" },
+        date: ""
+      },
 
       pos: {
         x: 0,
-        y: 0 },
+        y: 0
+      },
 
       size: {
         width: 1000,
         height: 750,
-        margin: 80 } };
+        margin: 80
+      }
+    };
 
 
   },
@@ -76,12 +80,12 @@ const App = {
     //------------------------------------------------------//
     getScale() {
       const x = d3.
-      scaleTime().
-      domain([
-      d3.max(this.values.map((data, index) => new Date(data.date))),
-      d3.min(this.values.map((data, index) => new Date(data.date)))]).
+        scaleTime().
+        domain([
+          d3.max(this.values.map((data, index) => new Date(data.date))),
+          d3.min(this.values.map((data, index) => new Date(data.date)))]).
 
-      range([this.size.width - this.size.margin * 2, 0]);
+        range([this.size.width - this.size.margin * 2, 0]);
       function formatDate(time) {
         const arrayTime = time.split(":");
         const [minutes, seconds, milliseconds] = [...arrayTime];
@@ -90,12 +94,12 @@ const App = {
 
       }
       const y = d3.
-      scaleTime().
-      domain([
-      d3.min(this.values.map((data, index) => formatDate(data.time))),
-      d3.max(this.values.map((data, index) => formatDate(data.time)))]).
+        scaleTime().
+        domain([
+          d3.min(this.values.map((data, index) => formatDate(data.time))),
+          d3.max(this.values.map((data, index) => formatDate(data.time)))]).
 
-      range([this.size.height - this.size.margin * 2, 0]);
+        range([this.size.height - this.size.margin * 2, 0]);
 
       return { x, y };
     },
@@ -149,7 +153,8 @@ const App = {
       return this.values.map((data, index) => {
         return {
           x: this.getScale.x(new Date(data.date)),
-          y: this.getScale.y(formatDate(data.time)) };
+          y: this.getScale.y(formatDate(data.time))
+        };
 
       });
     },
@@ -160,9 +165,9 @@ const App = {
     },
     calculateSize() {
       return d3.
-      scaleLinear().
-      domain([0, d3.max(this.values)]).
-      range([1, 25]);
+        scaleLinear().
+        domain([0, d3.max(this.values)]).
+        range([1, 25]);
     },
     circleSize() {
       return this.values.map((item, index) => {
@@ -186,7 +191,8 @@ const App = {
       this.current = {
         name: info.name,
         time: info.time,
-        date: info.date };
+        date: info.date
+      };
 
       const tooltip = this.$refs.tooltip;
       const pos = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
@@ -221,14 +227,16 @@ const App = {
     addAxisY() {
 
       d3.select(this.$refs.axisY).
-      call(d3.axisLeft(this.getScale.y).tickFormat(d3.timeFormat("%M:%S")));
-    } },
+        call(d3.axisLeft(this.getScale.y).tickFormat(d3.timeFormat("%M:%S")));
+    }
+  },
 
   watch: {
     getScale() {
       this.addAxisX();
       this.addAxisY();
-    } },
+    }
+  },
 
   // mounted() {
   //   // this.addAxisX();
@@ -240,47 +248,47 @@ const App = {
     //------------------------------------------------------//
     const spreadsheetID = "1xUEByyIty6q7dIv_hysJ4534u696e2HVWnTD4-YGxLk";
     const tab = "main";
+    const api = process.env.APIKEY;
     await fetch(
-    `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetID}/values/${tab}?alt=json&key=${localStorage.getItem(
-    "apiKey" // Stored in localStorage
-    )}`).
+      `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetID}/values/${tab}?alt=json&key=${api}`).
 
-    then(response => response.json()).
-    then(response => {
-      const columns = response.values[0];
-      const values = response.values.slice(1).map((val) =>
-      columns.reduce((arg, key, idx) => {
-        arg[key] = val[idx];
-        return arg;
-      }, {}));
+      then(response => response.json()).
+      then(response => {
+        const columns = response.values[0];
+        const values = response.values.slice(1).map((val) =>
+          columns.reduce((arg, key, idx) => {
+            arg[key] = val[idx];
+            return arg;
+          }, {}));
 
 
-      // Update the formated data to the schools array
-      this.values = values;
-      this.size.width = window.innerWidth;
-      this.size.height = window.innerHeight;
-      this.addAxisX();
-      this.addAxisY();
-    }).
-    catch(function (error) {
-      console.log(error);
-    });
+        // Update the formated data to the schools array
+        this.values = values;
+        this.size.width = window.innerWidth;
+        this.size.height = window.innerHeight;
+        this.addAxisX();
+        this.addAxisY();
+      }).
+      catch(function (error) {
+        console.log(error);
+      });
   },
-  created() {
-    //--------------------------------//
-    // Setup apiKey for development
-    //--------------------------------//
-    let apiKey = localStorage.getItem("apiKey");
+  // created() {
+  //   //--------------------------------//
+  //   // Setup apiKey for development
+  //   //--------------------------------//
+  //   let apiKey = localStorage.getItem("apiKey");
 
-    if (!apiKey) {
-      apiKey = prompt("Enter API Key:");
-      let apiKey = localStorage.setItem("apiKey", apiKey);
-    }
-    // END Setup apiKey for development --------------//
+  //   if (!apiKey) {
+  //     apiKey = prompt("Enter API Key:");
+  //     let apiKey = localStorage.setItem("apiKey", apiKey);
+  //   }
+  //   // END Setup apiKey for development --------------//
 
-    const queryString = window.location.hash;
-    this.parameter = decodeURI(queryString).replace("#", "");
-  } };
+  //   const queryString = window.location.hash;
+  //   this.parameter = decodeURI(queryString).replace("#", "");
+  // }
+};
 
 
 createApp(App).mount("#app");
