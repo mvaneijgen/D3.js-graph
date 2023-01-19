@@ -7,7 +7,6 @@ const App = {
   // data: {
   data() {
     return {
-      apiKey: '',
       values: [],
       colors: [
         "#064743",
@@ -243,31 +242,33 @@ const App = {
   //   // this.addAxisX();
   //   // this.addAxisY();
   // },
-  created() {
-    //--------------------------------//
-    // Setup apiKey for development
-    //--------------------------------//
-    this.apiKey = localStorage.getItem("apiKey");
+  // created() {
+  //   //--------------------------------//
+  //   // Setup apiKey for development
+  //   //--------------------------------//
+  //   this.apiKey = localStorage.getItem("apiKey");
 
-    if (!this.apiKey) {
-      this.apiKey = prompt("Enter API Key:");
-      this.apiKey = localStorage.setItem("apiKey", this.apiKey);
-    }
-    // END Setup apiKey for development --------------//
-    console.warn(this.apiKey);
+  //   if (!this.apiKey) {
+  //     this.apiKey = prompt("Enter API Key:");
+  //     this.apiKey = localStorage.setItem("apiKey", this.apiKey);
+  //   }
+  //   // END Setup apiKey for development --------------//
+  //   console.warn(this.apiKey);
 
-  },
+  // },
   async mounted() {
     //------------------------------------------------------//
     // Google spreadsheet API logic
     //------------------------------------------------------//
     const spreadsheetID = "1xUEByyIty6q7dIv_hysJ4534u696e2HVWnTD4-YGxLk";
+    const sheets = "AIzaSyA0d2C-nKTbMfO3kDlo_07ztPDVcH6Acn8";
     const tab = "main";
     await fetch(
-      `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetID}/values/${tab}?alt=json&key=${this.apiKey}`).
+      `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetID}/values/${tab}?alt=json&key=${sheets}`).
 
       then(response => response.json()).
       then(response => {
+        console.warn(response);
         const columns = response.values[0];
         const values = response.values.slice(1).map((val) =>
           columns.reduce((arg, key, idx) => {
