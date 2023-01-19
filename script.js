@@ -261,10 +261,10 @@ const App = {
     // Google spreadsheet API logic
     //------------------------------------------------------//
     const spreadsheetID = "1xUEByyIty6q7dIv_hysJ4534u696e2HVWnTD4-YGxLk";
-    const sheets = "AIzaSyA0d2C-nKTbMfO3kDlo_07ztPDVcH6Acn8";
+    const apiKey = "";
     const tab = "main";
     await fetch(
-      `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetID}/values/${tab}?alt=json&key=${sheets}`).
+      `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetID}/values/${tab}?alt=json&key=${apiKey}`).
 
       then(response => response.json()).
       then(response => {
